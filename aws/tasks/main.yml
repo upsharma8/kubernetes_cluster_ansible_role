@@ -1,0 +1,37 @@
+
+
+     
+    - name: Launch instance
+      amazon.aws.ec2:
+         key_name: "{{ keypair }}"
+         group: "{{ security_group }}"
+         instance_type: "{{ instance_type }}"
+         image: "{{ image }}"
+         count: 1
+         instance_tags:
+                Name: "{{ item }}"
+         wait: true
+         region: "{{ region }}"
+         vpc_subnet_id: subnet-51d8303a
+         assign_public_ip: yes
+         aws_access_key: "{{ access_key }}"
+         aws_secret_key: "{{ secret_key }}"
+
+      register: ec2
+      loop: "{{ instance_tag }}"
+    
+    - name: Add 1st instance to host group ec2_master
+      add_host:
+        hostname: "{{ ec2.results[0].instances[0].public_ip }}"
+        groupname: ec2_master
+    
+    - name: Add 2nd instance to host group ec2_slave
+      add_host:
+        hostname: "{{ ec2.results[1].instances[0].public_ip }}"
+        groupname: ec2_slave
+
+    - name: Add 3rd instance to host group ec2_slave
+      add_host:
+        hostname: "{{ ec2.results[2].instances[0].public_ip }}"
+        groupname: ec2_slave
+    

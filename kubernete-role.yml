@@ -1,0 +1,16 @@
+
+- hosts: localhost
+  
+  vars_files:
+        - cred.yml
+  roles:
+    - role: "aws"
+
+- hosts: ec2_master
+  roles:
+    - role: "kubernetes-master"
+
+
+- hosts: ec2_slave
+  roles:
+    - role: "kubernetes-slave"

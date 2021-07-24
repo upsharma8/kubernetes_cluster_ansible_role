@@ -1,0 +1,14 @@
+---
+# vars file for aws
+
+
+    keypair: upkey
+    instance_type: t2.micro
+    security_group: upsg
+    image: ami-011c99152163a87ae
+    region: ap-south-1
+    instance_tag:
+        - master
+        - slave1
+        - slave2
+
